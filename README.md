@@ -52,6 +52,7 @@ server when current one goes down.
 ```js
 var http = require('http'),
     Primus = require('primus'),
+    PrimusRooms = require('primus-rooms'),
     PrimusRedis = require('primus-redis-rooms');
 
 var server = http.createServer();
