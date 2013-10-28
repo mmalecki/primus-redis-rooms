@@ -1,5 +1,5 @@
 # primus-redis-rooms
-[![Build Status](https://travis-ci.org/mmalecki/primus-redis.png)](https://travis-ci.org/mmalecki/primus-redis)
+[![Build Status](https://travis-ci.org/mmalecki/primus-redis-rooms.png)](https://travis-ci.org/mmalecki/primus-redis-rooms)
 
 `primus-redis-rooms` is a Redis store for [Primus](https://github.com/primus/primus)
 and [`primus-rooms`](https://github.com/cayasso/primus-rooms).
