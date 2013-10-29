@@ -39,7 +39,7 @@ function getClient(primus) {
   }));
   client.on('data', cb(function (msg) {
     console.log('client got message');
-    assert.equal(msg, 'Hello world');
+    assert.deepEqual(msg, { hello: 'world' });
     client.end();
     if (--clients === 0) {
       process.exit();
@@ -51,4 +51,4 @@ primus0 = getPrimus();
 primus1 = getPrimus();
 getClient(primus0);
 getClient(primus1);
-primus0.room('our-room').write('Hello world');
+primus0.room('our-room').write({ hello: 'world' });
