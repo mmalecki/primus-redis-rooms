@@ -34,13 +34,13 @@ function getPrimus() {
 function getClient(primus) {
   clients += 3;
   var client = new (primus.Socket)('http://localhost:' + primus.port);
-  client.on('open', cb(function () {
-    console.log('client open');
-  }));
+
+  client.on('open', cb(function () { }));
+
   client.on('data', cb(function (msg) {
     assert.deepEqual(msg, { room: 'our-room', data: { hello: 'world' } });
-    client.end();
     clients--;
+    console.log('clients left', clients);
     if (clients === 0) {
       process.exit();
     }
@@ -61,6 +61,7 @@ setTimeout(function () {
     primus1.room('our-room').write({ hello: 'world' });
 
     setTimeout(function () {
+      console.log('third write');
       primus0.room('our-room').write({ hello: 'world' });
     }, 50);
   }, 50);
