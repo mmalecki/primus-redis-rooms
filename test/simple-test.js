@@ -61,7 +61,6 @@ setTimeout(function () {
     primus1.room('our-room').write({ hello: 'world' });
 
     setTimeout(function () {
-      console.log('third write');
       primus0.room('our-room').write({ hello: 'world' });
     }, 50);
   }, 50);
