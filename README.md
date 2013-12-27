@@ -32,14 +32,13 @@ var primus = new Primus(server, {
   },
   transformer: 'websockets'
 });
-primus.use('rooms', PrimusRooms); // Remember to use rooms first.
 primus.use('redis', PrimusRedis);
 
 //
-// This'll take care of sending the message to all other instances connected
-// to the same Redis channel.
+// This'll take care of sending the message to all clients in room called
+// `our-room`.
 //
-primus.write('Hello world!'); 
+primus.room('our-room').write('Hello world!');
 ```
 
 ### Sentinel

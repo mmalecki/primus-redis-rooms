@@ -1,10 +1,11 @@
 var http = require('http'),
     assert = require('assert'),
     Primus = require('primus'),
-    PrimusRooms = require('primus-rooms'),
     cb = require('assert-called'),
     PrimusRedisRooms = require('../'),
     PORT = 3456;
+
+http.globalAgent.maxSockets = 500;
 
 var server = http.createServer(),
     primus0, primus1,
@@ -19,7 +20,6 @@ function getPrimus() {
     },
     transformer: 'websockets'
   });
-  primus.use('rooms', PrimusRooms);
   primus.use('redis', PrimusRedisRooms);
 
   primus.on('connection', function (spark) {
@@ -32,16 +32,16 @@ function getPrimus() {
 }
 
 function getClient(primus) {
-  ++clients;
+  clients += 3;
   var client = new (primus.Socket)('http://localhost:' + primus.port);
-  client.on('open', cb(function () {
-    console.log('client open');
-  }));
+
+  client.on('open', cb(function () { }));
+
   client.on('data', cb(function (msg) {
-    console.log('client got message');
-    assert.deepEqual(msg, { hello: 'world' });
-    client.end();
-    if (--clients === 0) {
+    assert.deepEqual(msg, { room: 'our-room', data: { hello: 'world' } });
+    clients--;
+    console.log('clients left', clients);
+    if (clients === 0) {
       process.exit();
     }
   }));
@@ -49,6 +49,19 @@ function getClient(primus) {
 
 primus0 = getPrimus();
 primus1 = getPrimus();
-getClient(primus0);
-getClient(primus1);
-primus0.room('our-room').write({ hello: 'world' });
+
+for (var i = 0; i < 100; i++) {
+  getClient(primus0);
+  getClient(primus1);
+}
+
+setTimeout(function () {
+  primus0.room('our-room').write({ hello: 'world' });
+  setTimeout(function () {
+    primus1.room('our-room').write({ hello: 'world' });
+
+    setTimeout(function () {
+      primus0.room('our-room').write({ hello: 'world' });
+    }, 50);
+  }, 50);
+}, 1000);

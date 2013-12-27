@@ -1,16 +1,15 @@
 {
   "name": "primus-redis-rooms",
   "version": "0.1.1",
-  "description": "Redis plugin for Primus supporting rooms as provided by `primus-rooms`",
+  "description": "Redis-based room system for Primus",
   "dependencies": {
     "redis": "0.9.x",
     "redis-sentinel": "0.0.x"
   },
   "devDependencies": {
-    "primus": "1.4.x",
+    "primus": "1.5.x",
     "ws": "0.4.x",
-    "assert-called": "~0.1.2",
-    "primus-rooms": "1.1.x"
+    "assert-called": "~0.1.2"
   },
   "repository": {
     "type": "git",
