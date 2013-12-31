@@ -4,7 +4,8 @@
   "description": "Redis-based room system for Primus",
   "dependencies": {
     "redis": "0.9.x",
-    "redis-sentinel": "0.0.x"
+    "redis-sentinel": "0.0.x",
+    "node-uuid": "~1.4.1"
   },
   "devDependencies": {
     "primus": "1.5.x",
