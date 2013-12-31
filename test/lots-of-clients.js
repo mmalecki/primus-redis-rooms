@@ -3,11 +3,13 @@ var assert = require('assert');
 var Primus = require('primus');
 var cb = require('assert-called');
 var PrimusRedisRooms = require('../');
-var PORT = 3457;
+var PORT = 3456;
 
-var server = http.createServer();
-var clients = 0;
-var primus0, primus1;
+http.globalAgent.maxSockets = 500;
+
+var server = http.createServer(),
+    primus0, primus1,
+    clients = 0;
 
 function getPrimus() {
   var server = http.createServer();
@@ -30,7 +32,7 @@ function getPrimus() {
 }
 
 function getClient(primus) {
-  ++clients;
+  clients += 3;
   var client = new (primus.Socket)('http://localhost:' + primus.port);
 
   client.on('open', cb(function () { }));
@@ -48,10 +50,18 @@ function getClient(primus) {
 primus0 = getPrimus();
 primus1 = getPrimus();
 
-var client0 = getClient(primus0);
-var client1 = getClient(primus1);
+for (var i = 0; i < 100; i++) {
+  getClient(primus0);
+  getClient(primus1);
+}
 
 setTimeout(function () {
   primus0.room('our-room').write({ hello: 'world' });
-  primus1.room('our-room').write({ hello: 'world' });
-}, 100);
+  setTimeout(function () {
+    primus1.room('our-room').write({ hello: 'world' });
+
+    setTimeout(function () {
+      primus0.room('our-room').write({ hello: 'world' });
+    }, 50);
+  }, 50);
+}, 1000);
