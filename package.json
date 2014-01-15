@@ -1,6 +1,6 @@
 {
   "name": "primus-redis-rooms",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Redis-based room system for Primus",
   "dependencies": {
     "redis": "0.9.x",
