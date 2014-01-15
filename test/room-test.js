@@ -13,6 +13,12 @@ function onConnected(spark) {
   spark.join(ROOM);
 
   room = primus.room(ROOM);
+
+  primus.on('leave', cb(function (room_, spark_) {
+    assert.equal(room, room_, '`leave` event should have correct `room` param');
+    assert.equal(spark, spark_, '`leave` event should have correct `spark` param');
+  }));
+
   room.on('empty', cb(function () {
     assert.equal(room.sparks.length, 0, 'room should emit `empty` only when empty');
 
