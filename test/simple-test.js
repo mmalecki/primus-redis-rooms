@@ -1,32 +1,14 @@
-var http = require('http');
 var assert = require('assert');
-var Primus = require('primus');
 var cb = require('assert-called');
-var PrimusRedisRooms = require('../');
+var getPrimus = require('./helpers/get-primus.js');
+
 var PORT = 3457;
 
-var server = http.createServer();
 var clients = 0;
 var primus0, primus1;
 
-function getPrimus() {
-  var server = http.createServer();
-  var primus = new Primus(server, {
-    redis: {
-      host: 'localhost',
-      port: 6379
-    },
-    transformer: 'websockets'
-  });
-  primus.use('redis', PrimusRedisRooms);
-
-  primus.on('connection', function (spark) {
-    spark.join('our-room');
-  });
-
-  primus.port = PORT;
-  server.listen(PORT++);
-  return primus;
+function onConnection(spark) {
+  spark.join('our-room');
 }
 
 function getClient(primus) {
@@ -45,8 +27,11 @@ function getClient(primus) {
   }));
 }
 
-primus0 = getPrimus();
-primus1 = getPrimus();
+primus0 = getPrimus(PORT++);
+primus1 = getPrimus(PORT++);
+
+primus0.on('connection', cb(onConnection));
+primus1.on('connection', cb(onConnection));
 
 var client0 = getClient(primus0);
 var client1 = getClient(primus1);
