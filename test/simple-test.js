@@ -18,7 +18,7 @@ function getClient(primus) {
   client.on('open', cb(function () { }));
 
   client.on('data', cb(function (msg) {
-    assert.deepEqual(msg, { room: 'our-room', data: { hello: 'world' } });
+    assert.deepEqual(msg, { hello: 'world' });
     clients--;
     console.log('clients left', clients);
     if (clients === 0) {
