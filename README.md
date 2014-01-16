@@ -20,7 +20,6 @@ failure.
 ```js
 var http = require('http'),
     Primus = require('primus'),
-    PrimusRooms = require('primus-rooms'),
     PrimusRedis = require('primus-redis-rooms');
 
 var server = http.createServer();
@@ -51,7 +50,6 @@ server when current one goes down.
 ```js
 var http = require('http'),
     Primus = require('primus'),
-    PrimusRooms = require('primus-rooms'),
     PrimusRedis = require('primus-redis-rooms');
 
 var server = http.createServer();
@@ -68,5 +66,15 @@ var primus = new Primus(server, {
   },
   transformer: 'websockets'
 });
-primus.use('rooms', PrimusRooms); // Remember to use rooms first.
 primus.use('redis', PrimusRedis);
+```
+
+## Changes
+
+### 0.2 -> 0.3
+
+* Wire format change - data is no longer written to clients as `{ room: "foo",
+  data: { our: "bar" } }`, only actual data is sent (`{ our: "bar" }` in this
+  case).
+
+
