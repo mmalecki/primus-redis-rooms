@@ -17,7 +17,7 @@
     "url": "https://github.com/mmalecki/primus-redis-rooms.git"
   },
   "scripts": {
-    "test": "node test/simple-test.js && node test/lots-of-clients-test.js && node test/room-test.js"
+    "test": "node test/simple-test.js && node test/lots-of-clients-test.js && node test/room-test.js && node test/one-client-test.js"
   },
   "main": "./lib/primus-redis-rooms.js",
   "license": "MIT"
