@@ -20,7 +20,7 @@ failure.
 ```js
 var http = require('http'),
     Primus = require('primus'),
-    PrimusRedis = require('primus-redis-rooms');
+    PrimusRedisRooms = require('primus-redis-rooms');
 
 var server = http.createServer();
 var primus = new Primus(server, {
@@ -31,7 +31,7 @@ var primus = new Primus(server, {
   },
   transformer: 'websockets'
 });
-primus.use('redis', PrimusRedis);
+primus.use('redis', PrimusRedisRooms);
 
 //
 // This'll take care of sending the message to all clients in room called
@@ -50,7 +50,7 @@ server when current one goes down.
 ```js
 var http = require('http'),
     Primus = require('primus'),
-    PrimusRedis = require('primus-redis-rooms');
+    PrimusRedisRooms = require('primus-redis-rooms');
 
 var server = http.createServer();
 var primus = new Primus(server, {
@@ -66,7 +66,7 @@ var primus = new Primus(server, {
   },
   transformer: 'websockets'
 });
-primus.use('redis', PrimusRedis);
+primus.use('redis', PrimusRedisRooms);
 ```
 
 ## Changes
